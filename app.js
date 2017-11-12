@@ -3,8 +3,6 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 
-// Get our API routes
-const api = require('./server/api');
 
 const app = express();
 
@@ -23,8 +21,7 @@ app.use('/css', express.static(__dirname + '/node_modules/')); // redirect CSS b
 app.post('/test',(req,res)=>{
    console.log(req);
 });
-// Set our api routes
-app.use('/api', api);
+
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
