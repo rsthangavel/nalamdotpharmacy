@@ -1,0 +1,111 @@
+
+
+.order-review--card{
+    padding: 22px 4px 4px 3px;
+    /* height : 625px; */
+    height : 100%;
+}
+.order-review--username{
+  margin-left : -5%;
+  font-size: 20px;
+
+}
+.order-review--header{
+  /* padding-bottom: 25px; */
+}
+.order-review--header ,.mat-card-subtitle{
+  color: white;
+  /* padding-left : 25px; */
+}
+.order-review--doctor{
+      /* float: right; */
+      width: auto;
+      /* display: block; */
+      margin: auto 19px 18px auto;
+      line-height: 25px;
+}
+.order-review--address{
+  padding-bottom: 15px;
+  color: white;
+  padding-left : 30px;
+}
+.mat-horizontal-content-container{
+    /* height: 300px; */
+    height : auto;
+    overflow : auto;
+}
+.order-review--button{
+    
+      background: #6e6cff;
+      position: absolute;
+      right: 14px;
+      bottom: 15px;
+      color :white;
+}
+.order--review--backbutton{
+  position: relative;
+  bottom : 10px;
+}
+.backicon_sm{
+  display : none;
+}
+.mat-card-avatar{
+  width: 60px;
+  height : 60px;
+}
+.mat-step--form, .mat-step--review{
+    /* height : 400px; */
+    height: auto;
+    min-height: 100%;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+	background:
+    /* Shadow covers */
+    linear-gradient(white 30%, rgba(255,255,255,0)),
+    linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+    
+    /* Shadows */
+    radial-gradient(50% 0, farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)),
+    radial-gradient(50% 100%,farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+background:
+    /* Shadow covers */
+    linear-gradient(white 30%, rgba(255,255,255,0)),
+    linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+    
+    /* Shadows */
+    radial-gradient(farthest-side at 50% 0, rgba(0,0,0,.2), rgba(0,0,0,0)),
+    radial-gradient(farthest-side at 50% 100%, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+background-repeat: no-repeat;
+background-color: white;
+background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+
+/* Opera doesn't support this in the shorthand */
+background-attachment: local, local, scroll, scroll;
+}
+.review-order__price{
+
+  padding-left: 10%;
+}
+.order-review--price-input{
+    width : 120px;
+    font-size: 17px;
+}
+.order-review--gst-input{
+  width : 50px;
+  font-size: 17px;
+}
+.prescription--table td{
+   position: relative;
+   top : 20px;
+}
+input.bottom,input.bottomshort {
+  border: 0;
+  border-bottom: 1px solid #000;
+  width: 30em;
+  font-family: 'Inconsolata',serif
+}
+
+input.bottomshort {
+  width: 15em
+}

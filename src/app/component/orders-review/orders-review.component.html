@@ -1,0 +1,226 @@
+<!-- <span>Time</span><p><input class="bottom c11 c5" type="text" id="timepicker"/></p> -->
+<mat-card class="order-review--card" *ngIf="userData" style="background:rgba(39, 54, 96, 0.5)">
+
+  <!-- Order Review Header Content -->
+  <mat-card-header class="order-review--header ">
+
+    <div class="col-md-2 col-sm-2">
+      <button (click)="showOrderlist()" class="backicon_sm">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+      </button> 
+      <img  mat-card-avatar  class="img-circle img-thumbnail" alt="profile-image" src="assets/demo/76TNcbbsPdgi.jpg">
+    </div>
+    <div class="col-md-5 col-sm-5 order-review--username">
+      <span >{{userData.Name}}</span><br />
+      <span>{{userData.City}}</span> 
+    </div>
+
+    <div class="col-md-5 col-sm-5 col-xs-5 order-review--doctor">  
+        <span><strong>Doctor Name</strong>: Shree Ram</span><br />
+        <span><strong>Doctor ID</strong>: <a routerLink="deliveryperson">{{userData.DotID}}</a></span><br />
+        <span><strong>Prescription ID:&nbsp;</strong> {{userData.PrescriptionID}}</span>
+    </div>
+
+  </mat-card-header> 
+  <div class="order-review--address">
+       <strong>Address</strong>: &nbsp; {{userData.Address || 'Address not Available'}}&nbsp;<a *ngIf="userData.Address" href={{addressUrl}} target="_blank">see on map</a>
+  </div>
+   <!-- Order Review  Header Close -->
+
+  <!-- Order Review Content -->
+  <mat-card-content class="order-review--cardcontent">
+    <mat-horizontal-stepper #stepper>
+
+      <!-- Order Review First Stepper Open-->
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup" (ngSubmit)="firstFormSubmit(firstFormGroup.value, firstFormGroup.valid)" >
+          <div class="mat-step--form">
+            <ng-template matStepLabel>Add Price</ng-template>
+            <table class="table table table-hover m-0 prescription--table">
+              <thead>
+                <tr style="border-bottom:3px solid lightgrey">
+                  <th>#</th>
+                  <th class="text-center">Medicine Name</th>
+                  <th  class="text-center">Quantity</th>
+                  <th  class="text-center">Unit Price(₹)</th>
+                  <th  class="text-center">Total Price</th>
+                  <th  class="text-center">GST</th>
+                  <th  class="text-center">Availability</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of tableData; let i=index;" class="prescription-list">
+                  <td class="text-center" scope="row">{{i+1}}</td>
+                  <td style="padding-left:25px">{{data.medname}} <mat-chip-list style="display:inline-block"><mat-chip>{{data.type}}</mat-chip></mat-chip-list></td>
+              
+                  <th class="text-center"> 
+                      <mat-form-field class="order-review--gst-input">
+                         <input matInput  name="{{data.medname}}_quantity"  formControlName="{{data.medname}}_quantity" (keypress)="isNumber($event)">
+                     
+                      </mat-form-field>
+                      <!-- {{firstFormGroup['controls']["AEROCORT ROTACAP"].errors | json}} -->
+                   </th>
+                  <th class="text-center"> 
+                    <mat-form-field class="order-review--price-input">
+                        <span matPrefix>₹ &nbsp;</span> <input matInput  name="{{index}}" formControlName="{{data.medname}}" (keypress)="isNumber($event)" (focusout)="addzeros($event)">
+                      <mat-error *ngIf="data.medname">Invalid price</mat-error>
+                    </mat-form-field>
+                    <!-- {{firstFormGroup['controls']["AEROCORT ROTACAP"].errors | json}} -->
+                 </th>
+                 <td class="text-center" style="font-size:27px;">₹{{data.totalprice || 0.00}}</td>
+                 <th class="text-center">
+                  <mat-form-field class="order-review--gst-input">
+                  <input matInput name="{{data.medname}}_gst" formControlName="{{data.medname}}_gst" (keypress)="isNumber()">
+                  <mat-error *ngIf="data.medID">Error</mat-error>
+                  <span matSuffix>% &nbsp;</span>
+                </mat-form-field>
+                 </th>
+                  <td class="text-center"><mat-slide-toggle checked="checked" (change)="isPrescriptionAvailable($event, data)"></mat-slide-toggle></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <h5 style="display:inline-block;">TOTAL PRICE(₹): </h5>
+            <strong style="font-size:20px">{{totalPrice}}/-</strong>
+            <button mat-raised-button  class="order-review--button" (click)="goNext(stepper)" [disabled]="!firstFormGroup.valid" >Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <!-- Order Review First Stepper close -->
+
+      <!-- Order Review Second Stepper Open -->
+      <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup" (ngSubmit)="secondFormSubmit(secondFormGroup.value, secondFormGroup.valid)">
+          <div class="mat-step--form">
+            <ng-template matStepLabel>Set Delivery Person</ng-template>
+            <div class="row">
+              <mat-form-field class="col-md-8 col-md-offset-1" style="width:75%">
+                <mat-select placeholder="Select delivery person" formControlName="deliver_person">
+                  <mat-option *ngFor="let person of deliveryPerson | async" [value]="person.Name" >
+                     {{ person | json }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button mat-mini-fab type="button" data-toggle="modal" data-target="#deliverpersonModal" (click)="addNewDeliveryPerson()">
+                <i class="material-icons">add</i>
+              </button>
+               <div class="col-md-7 col-md-offset-1 m-t-10">
+                  <mat-form-field style="width:100%">
+                     <textarea matInput placeholder="Enter Delivery Location" formControlName="delivery_address"></textarea>
+                  </mat-form-field>
+                </div>
+                <!-- <div class="col-md-1 m-t-10">
+                   <mat-checkbox style="margin-top:10px">copy from user address!</mat-checkbox>
+                </div> -->
+              </div>
+              <div class="row" style="margin: 20px auto">
+              <div class="col-md-1 m-t-10">
+                <strong matTooltip="Estimated Time Arrival!">ETA:</strong>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field (click)="picker.open()">        
+                  <input matInput [matDatepicker]="picker" [min]="today" placeholder="Choose a date" formControlName="ETA_date" >
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                  <mat-form-field  id="timepicker" (focusout)="calldata()">        
+                      <input matInput type="text" class="timepicker" placeholder="choose a time" formControlName="ETA_time"/>
+                      <i class="material-icons" matSuffix (click)="show()">access_time</i>
+                    </mat-form-field>  
+                 
+                    <!-- <div class="input-group clockpicker" id="timepicker">
+                      <input type="text" class="form-control timepicker" value="09:30">
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-time"></span>
+                      </span>
+                  </div> -->
+                   
+             
+                </div>
+              </div>
+            </div>
+          
+            <div>
+              <button mat-raised-button matStepperPrevious>Back</button>
+              <button mat-raised-button  class="order-review--button" matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <!-- Order Review Second Stepper Close -->
+
+      <!-- Order Review Third Stepper Open -->
+        <mat-step>
+          <h4>Order Summary:</h4>
+          <form [formGroup]="firstFormGroup" >
+            <div class="mat-step--review">
+              <ng-template matStepLabel>Review Order</ng-template>
+              <table class="table table table-hover m-0">
+                <thead>
+                  <tr style="border-bottom:3px solid lightgrey">
+                    <th>#</th>
+                    <th class="text-center">Medicine Name</th>
+                    <th  class="text-center">Quantity</th>
+                    <th  class="text-center">Unit Price</th>
+                    <th  class="text-center">GST(%)</th>
+                    <th class="text-center">Amount</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of tableData; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td>{{data.medname}}<mat-chip-list style="display:inline-block"><mat-chip>{{data.type}}</mat-chip></mat-chip-list></td>
+                    <td  class="text-center">{{data.quantity}}</td>
+                    <th class="text-center">₹ {{data.unitprice || 0}}</th>
+                    <th class="text-center">{{data.gst_percentage || 0}}%</th>
+                    <th class="text-center review-order__price">₹ {{data.totalprice || 0}}</th>
+                  </tr>
+                   <tr style="border-top:3px solid lightgray;">
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <th>Amount(Exclusive of GST)</th>
+                     <th style="padding-left:16%;">{{tableData.med_price}}</th>
+                   </tr>
+                   <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                     <th >GST</th>
+                     <th style="padding-left:16%">{{tableData.gst_price}}</th>
+                   </tr>
+                   <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <th style="font-size: 20px;">TOTAL PRICE(₹)</th>
+                      <th style="font-size: 40px;padding-left:5%;">{{totalPrice}}/-</th>
+                    </tr>
+                   <tr>
+                     <td colspan="3">Total price in words</td>
+                     <td colspan="5">{{totalPrice | digitsToWords}}</td>
+                   </tr>
+               
+                </tbody>
+              </table>
+            </div>
+          <div>
+          <button mat-raised-button class="order-review--button" (click)="orderPlaced()">Confirm Order</button>
+        </div>
+      </form>
+      <div>
+        <button  mat-raised-button  class="order--review--backbutton" mat-button matStepperPrevious>Back</button>
+      </div>
+    </mat-step>
+    <!-- Review Order Third stepper close -->
+   </mat-horizontal-stepper>
+  </mat-card-content>   
+ </mat-card>
+
+ 

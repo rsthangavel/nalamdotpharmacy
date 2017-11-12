@@ -1,0 +1,86 @@
+
+/* .user-details {position: relative; padding: 0;} 
+.user-details .user-image {position: relative;  z-index: 1; width: 100%; text-align: center;}
+ .user-image img { clear: both; margin: auto; position: relative;}
+ .user-info-block {width: 100%; position: relative; top: -50px; background: rgb(255, 255, 255); z-index: 0; padding-top: 45px;}
+ .user-info-block .user-heading {width: 100%; text-align: center; margin: 10px 0 0;}
+ .user-info-block .user-body {float: left; padding: 5%; width: 90%;}
+ .user-content{ width: 100%;} */
+
+.container{
+    background : white;
+    margin-top : 50px;
+    width: 80%;
+    padding-left : 10px;
+    padding-right : 10px
+}
+    /* .user-info-block {
+        background : white;
+        margin-top: 50px;
+    
+    } */
+
+ .user-header h3{
+     text-align: center;
+     height : 50px;
+     color  : white;
+     margin: 12px 0;
+ }
+ .user-data p{
+     width : 200px;
+     margin : 10px auto 10px auto;
+ }
+ .user-image{
+    width : 100px;
+    height : 50px;
+    margin: auto;
+    bottom : 50px;
+    position: relative;    
+ }
+ .edit-button{
+    width :50px;
+    margin : 20px auto;
+    position: relative;
+    bottom: 40px;
+
+ }
+ .dot-blue{
+    color:#037cc1;
+ }
+ .pharma-spec{
+    line-height: 10px;     
+}
+.spec-chips{
+    position: relative;
+    bottom:30px;
+    margin:10px auto;
+    width:265px;
+}
+label {
+    color:#555;
+    font-size: 15px;
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+textarea {
+    resize: none;
+}
+.edit{
+    padding-top: 7px;	
+	padding-right: 7px;
+	position: absolute;
+	right: 10px;
+	top: 75px;
+}
+.mat-card:hover, .mat-expansion-panel:hover{
+    color: #1a2326;
+    text-decoration: none;
+    border-color: #2b85e7;
+    background: #e2e1e1;
+    border-radius: 4px;
+    box-shadow: 0 8px 8px rgba(1,67,163,.24), 0 0 8px rgba(1,67,163,.12), 0 6px 18px rgba(43,133,231,.12);
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px);
+}
+.PharmDetails{
+    padding-top:12px;
+}
